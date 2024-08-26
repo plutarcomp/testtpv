@@ -1,0 +1,35 @@
+@import './css/custom-banner.css';
+@import './css/custom-button.css';
+@import './css/custom-checkbox.css';
+@import './css/custom-input.css';
+
+/* src/theme/themes.css */
+:root {
+    --color-background: #ffffff;
+    --color-text: #000000;
+    --color-primary: #6200ea;
+}
+
+.theme-dark {
+    --color-background: #121212;
+    --color-text: #ffffff;
+    --color-primary: #bb86fc;
+}
+
+.theme-light {
+    --color-background: #ffffff;
+    --color-text: #424242;
+    --color-primary: #BBF246;
+    --color-invalid: #ff4d4f;
+    --color-ligther: #d4d4d4;
+}
+
+body {
+    background-color: var(--color-background) !important;
+    color: var(--color-text) !important;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 100;
+}
+ h1 {
+    color: red
+}

@@ -1,0 +1,37 @@
+/* Valores para checkbox */
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--color-text);
+    user-select: none; /* Prevent text selection while clicking */
+  }
+  
+  .custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .custom-checkbox .checkmark {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: 2px solid var(--color-primary); /* Border for the checkbox */
+    border-radius: 10px; /* Rounded corners */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-weight: bold;
+    color: var(--primary-bg);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    box-sizing: border-box;
+  }
+  
+  .custom-checkbox input:checked ~ .checkmark {
+    background-color: var(--primary-bg);
+    border-color: var(--primary-bg);
+    color: var(--color-primary); /* X color */
+  }

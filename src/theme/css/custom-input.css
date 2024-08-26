@@ -1,0 +1,12 @@
+/*Valores para inputcustom*/
+.inputCustom {
+    border-radius: 20px;
+    border-color:var(--color-primary);
+}
+.inputCustom::placeholder {
+    color: var(--color-ligther);
+    
+}
+.invalid-input {
+    border-color: var(--color-invalid) !important;
+}

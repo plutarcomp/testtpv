@@ -1,6 +1,6 @@
 // src/auth/RoleGuard.tsx
 import { useAuthStore } from './authStore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 
 export function RoleGuard(allowedRoles) {
   const { role, token } = useAuthStore();

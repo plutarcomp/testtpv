@@ -1,10 +1,39 @@
+import { useForm } from 'react-hook-form';
 import BannerRegistro from '../../components/BannerRegistro';
 import CustomButton from '../../components/CustomButton';
 import CustomCheckbox from '../../components/CustomCheckbox';
 import CustomInput from '../../components/CustomInput';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import '../../theme/themes.css';
+import { useEffect } from 'react';
+
+const loginSchema = z.object({
+  username: z.string()
+    .email({ message: 'Debe ser un correo electrónico válido' }), // Ensure this is correctly typed as string
+  password: z.string()
+    .min(8, { message: 'La contraseña debe tener al menos 8 caracteres' }), // Ensure correct type
+});
 
 const Login = () => {
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    // Handle form submission here
+  };
+
+  useEffect(() => {
+    console.log('Errors:', errors);
+  }, [errors]);
+
   return (
     <div className="d-flex justify-content-center align-items-center bg-light min-vh-100">
       <div className="container" style={{ maxWidth: '1250px' }}>
@@ -26,34 +55,32 @@ const Login = () => {
             <div className="mx-auto" style={{ maxWidth: '400px' }}>
               <h2 className="mb-3 text-center">Ingresa tu usuario y contraseña</h2>
               <hr className="my-4" />
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-3">
                   <CustomInput
                     type="text"
                     label="Usuario"
-                    id="username"
                     placeholder="user@domain.com"
-                    icon="bi bi-person"
-                    value=""
-                    onChange={() => {}}
+                    error={errors.username?.message}
+                    register={register}
+                    name="username"
                   />
                 </div>
                 <div className="mb-4">
                   <CustomInput
                     type="password"
                     label="Contraseña"
-                    id="password"
                     placeholder="Ingresa contraseña"
-                    icon="bi bi-lock"
-                    value=""
-                    onChange={() => {}}
+                    error={errors.password?.message}
+                    register={register}
+                    name="password"
                   />
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <CustomCheckbox label="Recuérdame" />
                     <a href="#" className="text-primary text-decoration-none small">Olvidé mi contraseña</a>
                   </div>
                   <CustomButton label="Acceder" type="rounded" />
-                  <p className="mt-3 small">
+                  <p className="mt-3 small text-secondary">
                     Al registrarse en tu parque vivo, significa que acepta nuestra Política de privacidad y Términos de servicio.
                   </p>
                   <BannerRegistro />

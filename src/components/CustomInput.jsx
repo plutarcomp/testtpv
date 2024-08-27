@@ -5,25 +5,29 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../theme/themes.css';
 
-const CustomInput = ({ 
+const CustomInput = ({
   label,
   placeholder,
-  value,
-  onChange,
-  isRequired,
-  type }) => {
+  type,
+  error,
+  register,
+  name,
+}) => {
   const [isTouched, setIsTouched] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleBlur = () => {
     setIsTouched(true);
+    console.log('first:', isTouched);
   };
 
   const handleTogglePassword = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  const isValid = !isRequired || (isRequired && value.trim() !== '');
+  const isValid = !error
+  console.log('IsValid:', isValid);
+
   const inputType = type === 'password' && showPassword ? 'text' : type;
 
   return (
@@ -37,20 +41,19 @@ const CustomInput = ({
             onClick={handleTogglePassword}
             style={{ textDecoration: 'none' }}
           >
-            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} style={{color: '#adb5bd'}} />
+            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} style={{ color: '#adb5bd' }} />
           </button>
         )}
       </div>
       <input
         type={inputType}
-        className={`inputCustom form-control ${isTouched && !isValid ? 'is-invalid' : ''}`}
+        className={`inputCustom form-control ${!isValid ? 'is-invalid' : ''}`}
         placeholder={placeholder}
-        value={value}
-        onChange={onChange}
         onBlur={handleBlur}
+        {...register(name)}
       />
-      {isTouched && !isValid && (
-        <div className="invalid-feedback"></div>
+      {!isValid && (
+        <div className="invalid-feedback">{error}</div>
       )}
     </div>
   );
@@ -59,10 +62,10 @@ const CustomInput = ({
 CustomInput.propTypes = {
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  isRequired: PropTypes.bool,
   type: PropTypes.string.isRequired,
+  error: PropTypes.string,
+  register: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default CustomInput;

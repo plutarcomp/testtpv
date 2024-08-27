@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 export const useAuthStore = create((set) => ({
   token: null,
+  refreshToken: null,
   role: null,
   id: null,
   firstName: null,
@@ -13,6 +14,7 @@ export const useAuthStore = create((set) => ({
   setRole: (role) => set({ role }),
   logout: () => set({ 
     token: null,
+    refreshToken: null,
     role: null,
     id: null,
     firstName: null,

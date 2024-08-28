@@ -4,12 +4,18 @@ import { ThemeProvider } from './theme/ThemeContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './theme/themes.css'
 import Login from './pages/auth/Login';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient({})
+
 
 const rootElement = document.getElementById('root')
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <Login />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <Login />
+      </ThemeProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 )

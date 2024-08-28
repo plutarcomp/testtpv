@@ -6,16 +6,25 @@ import CustomInput from '../../components/CustomInput';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import '../../theme/themes.css';
-import { useEffect } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { useAuthStore } from '../../auth/authStorage';
+import { useState } from 'react';
 
 const loginSchema = z.object({
   username: z.string()
-    .email({ message: 'Debe ser un correo electrónico válido' }), // Ensure this is correctly typed as string
+    .min(8, { message: 'Debe contener al menos 8 caracteres' }),
   password: z.string()
-    .min(8, { message: 'La contraseña debe tener al menos 8 caracteres' }), // Ensure correct type
+    .min(8, { message: 'La contraseña debe tener al menos 8 caracteres' }),
 });
 
 const Login = () => {
+  const [errorLogin, setErrorLogin] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const {
+    setToken,
+    setRefreshToken,
+    setRole,
+   } = useAuthStore();
 
   const {
     register,
@@ -25,14 +34,50 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // Handle form submission here
-  };
+  const { mutate } = useMutation({
+    mutationFn: async (dataSend) => {
+      const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataSend),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error al iniciar sesión');
+      }
+  
+      return response.json();
+    },
+    onSuccess: (data) => {
+      setErrorLogin(false);
+      setIsLoading(false);
+      const { token, refreshToken, role, user } = data;
+      setToken(token);
+      setRefreshToken(refreshToken);
+      setRole(role);
+      useAuthStore.setState({
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+       });
+    },
+    onError: (err) => {
+      setErrorLogin(err.message);
+      setIsLoading(false);
+      console.error('Login Error:', err.message);
+    },
+  });
 
-  useEffect(() => {
-    console.log('Errors:', errors);
-  }, [errors]);
+  const onSubmit = (dataSend) => {
+    setIsLoading(true);
+    mutate(dataSend);
+  };
 
   return (
     <div className="d-flex justify-content-center align-items-center bg-light min-vh-100">
@@ -44,9 +89,8 @@ const Login = () => {
                 backgroundImage: 'url("/image/fondo_tablet_home.png")',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-    }}>
+            }}>
               <img src="/image/logo.png" alt="Logo" className="img-fluid mb-3" style={{ maxHeight: '80px' }} />
-
             </div>
           </div>
           
@@ -79,7 +123,12 @@ const Login = () => {
                     <CustomCheckbox label="Recuérdame" />
                     <a href="#" className="text-primary text-decoration-none small">Olvidé mi contraseña</a>
                   </div>
-                  <CustomButton label="Acceder" type="rounded" />
+                  <CustomButton label="Acceder" type="rounded" isLoading={isLoading} />
+                  {errorLogin && 
+                    <p className='alert alert-danger mt-3 text-center'>
+                      No se puede conceder el acceso, revise sus credenciales e intente de nuevo 
+                    </p>
+                  }
                   <p className="mt-3 small text-secondary">
                     Al registrarse en tu parque vivo, significa que acepta nuestra Política de privacidad y Términos de servicio.
                   </p>

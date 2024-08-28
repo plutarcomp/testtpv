@@ -26,7 +26,6 @@ const CustomInput = ({
   };
 
   const isValid = !error
-  console.log('IsValid:', isValid);
 
   const inputType = type === 'password' && showPassword ? 'text' : type;
 

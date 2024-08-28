@@ -6,18 +6,23 @@ const CustomButton = ({
   label = 'Button',
   onClick,
   disabled = false,
-  loading = false,
-  icon = null,
+  isLoading,
+  //icon = null,
 }) => {
+  console.log('Valor de isLoading:', isLoading);
   return (
     <button
-      className={`custom-button ${type} ${loading ? 'loading' : ''}`}
+      className={`custom-button ${type} ${isLoading ? 'loading' : ''}`}
       onClick={onClick}
-      disabled={disabled || loading}
+      disabled={disabled || isLoading}
     >
-      {loading ? 'Loading...' : (
+      {isLoading ? 
+      <>
+        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span className="visually-hidden">Loading...</span>
+      </> : (
         <>
-          {icon && <span className="button-icon">{icon}</span>}
+          {/* {icon && <span className="button-icon">{icon}</span>} */}
           {label}
         </>
       )}
@@ -30,7 +35,7 @@ CustomButton.propTypes = {
     label: PropTypes.string,
     onClick: PropTypes.func,
     disabled: PropTypes.bool,
-    loading: PropTypes.bool,
+    isLoading: PropTypes.bool,
     icon: PropTypes.node,
     };
 

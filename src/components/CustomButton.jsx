@@ -9,7 +9,6 @@ const CustomButton = ({
   isLoading,
   //icon = null,
 }) => {
-  console.log('Valor de isLoading:', isLoading);
   return (
     <button
       className={`custom-button ${type} ${isLoading ? 'loading' : ''}`}

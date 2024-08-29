@@ -17,7 +17,7 @@ const loginSchema = z.object({
     .min(8, { message: 'La contraseña debe tener al menos 8 caracteres' }),
 });
 
-const Login = () => {
+const LoginPage = () => {
   const [errorLogin, setErrorLogin] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -66,6 +66,9 @@ const Login = () => {
         email: user.email,
         phone: user.phone,
        });
+       console.log('Valores user Auth:', data);
+       
+       
     },
     onError: (err) => {
       setErrorLogin(err.message);
@@ -164,4 +167,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

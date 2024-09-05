@@ -1,31 +1,34 @@
-import { createRouteConfig } from '@tanstack/react-router';
-import HomePage from '../pages/HomePage';
-import LoginPage from '../pages/LoginPage';
-import DashboardPage from '../pages/DashboardPage';
-import MainLayout from '../layouts/MainLayout';
-import AuthLayout from '../layouts/AuthLayout';
-import { RoleGuard } from '../auth/RoleGuard';
+import { createRootRoute, createRoute } from "@tanstack/react-router";
+import LoginPage from "../pages/auth/LoginPage";
+import DashboardPage from "../pages/dashboard/DashboardPage";
+import { Root } from "../components/Root";
+import NotFoundPage from "../pages/NotFoundPage";
 
-const rootRoute = createRouteConfig({
-  component: MainLayout,
+const rootRoute = createRootRoute({
+  component: Root,
+  notFoundComponent: NotFoundPage,
 });
 
-// eslint-disable-next-line no-unused-vars
-const routes = rootRoute.addChildren([
-  {
-    path: '/',
-    component: HomePage,
-  },
-  {
-    path: '/login',
-    component: LoginPage,
-    layout: AuthLayout,
-  },
-  {
-    path: '/dashboard',
-    component: DashboardPage,
-    beforeEnter: RoleGuard(['admin', 'superuser', 'coach', 'user']),
-  },
-]);
+const indexRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: LoginPage,
+});
 
-export const routeConfig = rootRoute;
+const loginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/login/$programa",
+  component: LoginPage,
+});
+
+const dashboardRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/dashboard/$programa",
+  component: DashboardPage,
+});
+
+export const routeTree = rootRoute.addChildren([
+  indexRoute,
+  loginRoute,
+  dashboardRoute,
+]);

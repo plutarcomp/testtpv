@@ -1,16 +1,10 @@
-import { useTheme } from '../src/theme/useTheme';
+import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { routeTree } from "./router/routes";
 
+const router = createRouter({ routeTree });
 
 const App = () => {
-  const { theme, toggleTheme } = useTheme();
-
-  return (
-    <div className="container text-center mt-5">
-      <h1 className="display-4">Welcome to the Home Page</h1>
-      <p className="lead">Current Theme: {theme}</p>
-      <button className="btn btn-primary" onClick={toggleTheme}>Toggle Theme</button>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

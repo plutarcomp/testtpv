@@ -6,12 +6,15 @@ import CustomInput from '../../components/CustomInput';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import '../../theme/themes.css';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '../../auth/authStorage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from '@tanstack/react-router';
+import Modal from '../../components/modal/Modal';
 
 const loginSchema = z.object({
-  username: z.string()
+  email: z.string()
+  .email({ message: 'Debe ser un correo electrónico válido' })
     .min(8, { message: 'Debe contener al menos 8 caracteres' }),
   password: z.string()
     .min(8, { message: 'La contraseña debe tener al menos 8 caracteres' }),
@@ -19,7 +22,13 @@ const loginSchema = z.object({
 
 const LoginPage = () => {
   const [errorLogin, setErrorLogin] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingBtn, setIsLoadingBtn] = useState(false);
+  const [programaNotFound, setProgramaNotFound] = useState(false);
+
+  const navigate = useNavigate();
+
+  const programa = useParams({ from: '/login/$programa' })
+
   const {
     setToken,
     setRefreshToken,
@@ -34,9 +43,26 @@ const LoginPage = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const { data, error } = useQuery({
+    queryKey: ['programa', programa.programa],
+    queryFn: async () => {
+      const response = await fetch(`${import.meta.env.VITE_API_AUTH_URL}/programs/findbyurlname/${programa.programa}`);
+      return response.json();
+    },
+  });
+
+  useEffect(() => {
+    if (error) {
+      console.error('Error al obtener el programa:', error);
+    }
+    if (data && data.statusCode === 404) {
+      setProgramaNotFound(true);
+    }
+  }, [data, error]);
+
   const { mutate } = useMutation({
     mutationFn: async (dataSend) => {
-      const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/auth/login`, {
+      const response = await fetch(`${import.meta.env.VITE_API_AUTH_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,36 +79,46 @@ const LoginPage = () => {
     },
     onSuccess: (data) => {
       setErrorLogin(false);
-      setIsLoading(false);
+      setIsLoadingBtn(false);
       const { token, refreshToken, role, user } = data;
       setToken(token);
       setRefreshToken(refreshToken);
       setRole(role);
       useAuthStore.setState({
         id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
         email: user.email,
         phone: user.phone,
+        program: programa.programa
        });
        console.log('Valores user Auth:', data);
-       
+
+       navigate({ to: `/dashboard/${programa.programa}` });
        
     },
     onError: (err) => {
       setErrorLogin(err.message);
-      setIsLoading(false);
+      setIsLoadingBtn(false);
       console.error('Login Error:', err.message);
     },
   });
 
   const onSubmit = (dataSend) => {
-    setIsLoading(true);
+    dataSend.programurl = programa.programa;
+    console.log('Valores a enviar:', dataSend)
+    setIsLoadingBtn(true);
     mutate(dataSend);
   };
 
   return (
+    <>
+    <Modal isOpen={programaNotFound} onClose={()=>{}}>
+    <div className="alert alert-danger" role="alert">
+      <h4 className="alert-heading">Lo sentimos</h4>
+      <p>El programa que estas tratando de acceder no se encuentra o esta temporalmente deshabilitado.</p>
+      <hr/>
+      <p className="mb-0">Verifica la url e intenta de nuevo.</p>
+    </div>
+    </Modal>
     <div className="d-flex justify-content-center align-items-center bg-light min-vh-100">
       <div className="container" style={{ maxWidth: '1250px' }}>
         <div className="row shadow-lg">
@@ -96,6 +132,36 @@ const LoginPage = () => {
               <img src="/image/logo.png" alt="Logo" className="img-fluid mb-3" style={{ maxHeight: '80px' }} />
             </div>
           </div>
+          <div
+            className="position-absolute d-flex justify-content-center align-items-center d-none d-lg-block"
+            style={{
+              top: '40%',   // Custom vertical offset
+              left: '55%',  // Custom horizontal offset
+              transform: 'translate(-40%, -60%)',  // Custom centering adjustment
+              width: '25vw',
+              height: '26vw',
+              maxHeight: '403px',
+              backgroundImage: 'url("/image/center_circle.png")',
+              backgroundSize: 'contain',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              zIndex: 2,
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
+              <img
+                src="/image/logo.png"
+                alt="Logo"
+                className="img-fluid"
+                style={{ 
+                  maxWidth: '80%', 
+                  maxHeight: '80%', 
+                  margin: 'auto',
+                  display: 'block',
+                }}
+              />
+            </div>
+          </div>
           
           {/* Left Section */}
           <div className="col-lg-6 col-12 p-5 bg-white">
@@ -106,11 +172,11 @@ const LoginPage = () => {
                 <div className="mb-3">
                   <CustomInput
                     type="text"
-                    label="Usuario"
+                    label="Correo electrónico"
                     placeholder="user@domain.com"
-                    error={errors.username?.message}
+                    error={errors.email?.message}
                     register={register}
-                    name="username"
+                    name="email"
                   />
                 </div>
                 <div className="mb-4">
@@ -126,7 +192,7 @@ const LoginPage = () => {
                     <CustomCheckbox label="Recuérdame" />
                     <a href="#" className="text-primary text-decoration-none small">Olvidé mi contraseña</a>
                   </div>
-                  <CustomButton label="Acceder" type="rounded" isLoading={isLoading} />
+                  <CustomButton label="Acceder" type="rounded" isLoading={isLoadingBtn} />
                   {errorLogin && 
                     <p className='alert alert-danger mt-3 text-center'>
                       No se puede conceder el acceso, revise sus credenciales e intente de nuevo 
@@ -151,19 +217,13 @@ const LoginPage = () => {
                 className="img-fluid w-100 h-100"
                 style={{ objectFit: 'cover', objectPosition: 'center' }}
               />
-              {/* Logo with background or shadow for better visibility */}
-              <div className="position-absolute top-0 start-0 w-100" style={{ zIndex: 2 }}>
-                <img
-                  src="/image/logo.png"
-                  alt="Logo"
-                  className="img-fluid"
-                />
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    </>
   );
 };
 

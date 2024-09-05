@@ -1,0 +1,124 @@
+
+  
+  .app-container {
+    display: flex;
+    align-items: flex-start;
+    overflow-y: auto; /* Allow the entire page to scroll */
+  }
+  
+  .sidebar {
+    width: 250px;
+    position: fixed;
+    top: 15px; /* Adjust top to match the margin */
+    left: 15px;
+    background-image: linear-gradient(to bottom, #3E3D45, #202020);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 5px;
+    box-sizing: border-box;
+    height: calc(100vh - 30px);
+  }
+
+  .sidebar-content {
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-color: #3E3D45 #202020;
+    scrollbar-width: thin;
+}
+  
+  .sidebar-header h4 {
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  .sidebar .user-info {
+    text-align: center;
+  }
+  
+  .nav-link {
+    color: #bbb;
+    padding: 10px 15px;
+    font-weight: 500;
+    border-radius: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .nav-link.active {
+    background-color: #64dd17;
+    color: white;
+  }
+  
+  .nav-link:hover {
+    background-color: #333;
+    color: white;
+  }
+  
+  .topbar {
+    left: 270px; /* This should match the sidebar width */
+    right: 0;
+    height: 60px;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+  }
+  
+  .breadcrumb {
+    font-size: 18px;
+  }
+  
+  .search-box input {
+    width: 300px;
+    border-radius: 25px;
+  }
+  
+  .user-icons i {
+    font-size: 20px;
+    margin-left: 10px;
+    color: #20232a;
+  }
+  
+  .content {
+    margin-left: 270px; /* This should match the sidebar width */
+    padding-top: 80px; /* Ensure content doesn't overlap with the top bar */
+    padding-right: 20px;
+    padding-bottom: 20px;
+  }
+  
+  .card-feature {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  
+  .card-feature img {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-feature:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-feature .card-title {
+    font-weight: bold;
+  }
+  
+  .card-feature .card-text {
+    color: #555;
+  }
+  
+  .btn-primary {
+    background-color: #64dd17;
+    border: none;
+    border-radius: 20px;
+  }
+  
+  .card h4 {
+    font-weight: bold;
+    color: #64dd17;
+  }
+  
+  .card p {
+    color: #555;
+  }

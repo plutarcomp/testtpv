@@ -27,7 +27,7 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const programa = useParams({ from: '/login/$programa' })
+  const programa = useParams({ from: '/$programa/login' })
 
   const {
     setToken,
@@ -201,7 +201,7 @@ const LoginPage = () => {
                   <p className="mt-3 small text-secondary">
                     Al registrarse en tu parque vivo, significa que acepta nuestra Política de privacidad y Términos de servicio.
                   </p>
-                  <BannerRegistro />
+                  <BannerRegistro urlprogram={programa.programa}/>
                 </div>
               </form>
               <hr className="my-4" />

@@ -11,7 +11,7 @@ const MainLayout = () => {
       <div className={`sidebar bg-dark text-light`}>
         <div className='sidebar-content'>
         <div className="sidebar-header text-center p-2">
-          <img src="/image/qbos/logo1.png" alt="Logo" className="img-fluid" />
+          <img src="/images/qbos/logo1.png" alt="Logo" className="img-fluid" />
           <div className="user-info mt-3">
             <img src="user-avatar.jpg" alt="User" className="rounded-circle" width="60" />
             <h5 className="mt-2">Manuel Salas</h5>

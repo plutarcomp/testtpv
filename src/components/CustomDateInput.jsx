@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../theme/themes.css';
 
-const CustomDateInput = ({ label, placeholder, error, register, name, showErrors, min, max }) => {
+const CustomDateInput = ({ label, placeholder, error, register, name, min, max }) => {
   const [isTouched, setIsTouched] = useState(false);
 
   const handleBlur = () => {
@@ -27,7 +27,7 @@ const CustomDateInput = ({ label, placeholder, error, register, name, showErrors
         min={min} // Optional minimum date
         max={max} // Optional maximum date
       />
-      {!isValid && !showErrors && (
+      {!isValid && (
         <div className="invalid-feedback">{error}</div>
       )}
     </div>

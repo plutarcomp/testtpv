@@ -91,7 +91,7 @@ const LoginPage = () => {
        });
        console.log('Valores user Auth:', data);
 
-       navigate({ to: `/dashboard/${programa.programa}` });
+       navigate({ to: `/${programa.programa}/dashboard` });
        
     },
     onError: (err) => {
@@ -124,11 +124,11 @@ const LoginPage = () => {
           <div className="col-lg-6 col-12 d-lg-none p-0">
             <div className="bg-primary text-white p-5 d-flex flex-column justify-content-center align-items-center" style={{
                 height: '100%',
-                backgroundImage: 'url("/image/fondo_tablet_home.png")',
+                backgroundImage: 'url("/images/fondo_tablet_home.png")',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
             }}>
-              <img src="/image/logo.png" alt="Logo" className="img-fluid mb-3" style={{ maxHeight: '80px' }} />
+              <img src="/images/logo.png" alt="Logo" className="img-fluid mb-3" style={{ maxHeight: '80px' }} />
             </div>
           </div>
           <div
@@ -140,7 +140,7 @@ const LoginPage = () => {
               width: '25vw',
               height: '26vw',
               maxHeight: '403px',
-              backgroundImage: 'url("/image/center_circle.png")',
+              backgroundImage: 'url("/images/center_circle.png")',
               backgroundSize: 'contain',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
@@ -149,7 +149,7 @@ const LoginPage = () => {
           >
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
               <img
-                src="/image/logo.png"
+                src="/images/logo.png"
                 alt="Logo"
                 className="img-fluid"
                 style={{ 
@@ -211,7 +211,7 @@ const LoginPage = () => {
           <div className="col-lg-6 p-0 overflow-hidden d-none d-lg-block">
             <div className="h-100 position-relative">
               <img
-                src="/image/login_image.png"
+                src="/images/login_image.png"
                 alt="login"
                 className="img-fluid w-100 h-100"
                 style={{ objectFit: 'cover', objectPosition: 'center' }}

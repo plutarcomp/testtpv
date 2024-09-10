@@ -110,7 +110,7 @@ const RegisterStep1Page = () => {
           <div className="row align-items-center">
             <div className="col-md-4 text-center logo-container">
               <div className="logo-circle">
-                <img src="/image/logo.png" alt="logo" className='inner-logo' />
+                <img src="/images/logo.png" alt="logo" className='inner-logo' />
               </div>
             </div>
           </div>
@@ -119,7 +119,9 @@ const RegisterStep1Page = () => {
 
       <div className="content-section">
         <h2 className="mb-3 text-center">Crear cuenta</h2>
-
+        <div className="text-center mb-3">
+          <img src="/images/step-one.png" alt="step1" className="img-fluid" />
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="container d-flex justify-content-center">
             <div className="p-2 column-limited">
@@ -206,6 +208,16 @@ const RegisterStep1Page = () => {
             <Link to={`/${programa}/login`} className="text-primary text-decoration-none small text-center">¿Ya tienes cuenta? Inicia sesión</Link>
           </div>
         </form>
+      </div>
+
+      <div className="footer-section">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-md-12 text-center">
+              <img src="/images/bottom-decor.png" alt="logo" />
+            </div>
+          </div>
+        </div>
       </div>
     </>
   )

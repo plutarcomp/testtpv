@@ -4,7 +4,8 @@ import { Root } from "../components/Root";
 import LoginPage from "../pages/auth/LoginPage";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import NotFoundPage from "../pages/NotFoundPage";
-import RegisterPage from "../pages/auth/RegisterPage";
+import RegisterStep1Page from "../pages/auth/RegisterStep1Page";
+import RegisterStep2Page from "../pages/auth/RegisterStep2Page";
 
 const rootRoute = createRootRoute({
   component: Root,
@@ -29,15 +30,22 @@ const dashboardRoute = createRoute({
   component: DashboardPage,
 });
 
-const registerRoute = createRoute({
+const registerStep1Route = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/$programa/register",
-  component: RegisterPage,
+  path: "/$programa/register/step1",
+  component: RegisterStep1Page,
+});
+
+const registerStep2Route = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/$programa/register/step2",
+  component: RegisterStep2Page,
 });
 
 export const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   dashboardRoute,
-  registerRoute,
+  registerStep1Route,
+  registerStep2Route,
 ]);

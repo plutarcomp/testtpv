@@ -26,7 +26,6 @@ const LoginPage = () => {
   const [programaNotFound, setProgramaNotFound] = useState(false);
 
   const navigate = useNavigate();
-
   const programa = useParams({ from: '/$programa/login' })
 
   const {
@@ -112,12 +111,12 @@ const LoginPage = () => {
   return (
     <>
     <Modal isOpen={programaNotFound} onClose={()=>{}}>
-    <div className="alert alert-danger" role="alert">
-      <h4 className="alert-heading">Lo sentimos</h4>
-      <p>El programa que estas tratando de acceder no se encuentra o esta temporalmente deshabilitado.</p>
-      <hr/>
-      <p className="mb-0">Verifica la url e intenta de nuevo.</p>
-    </div>
+      <div className="alert alert-danger" role="alert">
+        <h4 className="alert-heading">Lo sentimos</h4>
+        <p>El programa que estas tratando de acceder no se encuentra o esta temporalmente deshabilitado.</p>
+        <hr/>
+        <p className="mb-0">Verifica la url e intenta de nuevo.</p>
+      </div>
     </Modal>
     <div className="d-flex justify-content-center align-items-center bg-light min-vh-100">
       <div className="container" style={{ maxWidth: '1250px' }}>

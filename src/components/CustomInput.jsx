@@ -12,6 +12,7 @@ const CustomInput = ({
   error,
   register,
   name,
+  showErrors,
 }) => {
   const [isTouched, setIsTouched] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -51,7 +52,7 @@ const CustomInput = ({
         onBlur={handleBlur}
         {...register(name)}
       />
-      {!isValid && (
+      {!isValid && !showErrors &&(
         <div className="invalid-feedback">{error}</div>
       )}
     </div>
@@ -65,6 +66,7 @@ CustomInput.propTypes = {
   error: PropTypes.string,
   register: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  showErrors: PropTypes.bool,
 };
 
 export default CustomInput;

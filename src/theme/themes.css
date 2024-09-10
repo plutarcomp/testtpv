@@ -34,3 +34,18 @@ body {
  h1 {
     color: red
 }
+
+.position-relative {
+    position: relative;
+  }
+  
+  .loading-overlay {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(205, 205, 205, 0.7);
+    z-index: 1;
+    border-radius: 30px;
+  }

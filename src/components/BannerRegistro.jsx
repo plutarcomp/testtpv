@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import '../theme/themes.css';
 
 const BannerRegistro = (urlprogram) => {
-    const url = '/register/'+urlprogram.programa;
+    console.log('URL:', urlprogram);
+    const url = `/${urlprogram.urlprogram}/register/step1`;
     return (
         <div className="custom-banner-container mt-4">
             <div className='custom-banner'>

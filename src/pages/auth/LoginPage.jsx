@@ -28,11 +28,11 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const programa = useParams({ from: '/$programa/login' })
 
-  const {
-    setToken,
-    setRefreshToken,
-    setRole,
-   } = useAuthStore();
+  // const {
+  //   setToken,
+  //   setRefreshToken,
+  //   setRole,
+  //  } = useAuthStore();
 
   const {
     register,
@@ -79,15 +79,19 @@ const LoginPage = () => {
     onSuccess: (data) => {
       setErrorLogin(false);
       setIsLoadingBtn(false);
-      const { token, refreshToken, role, user } = data;
-      setToken(token);
-      setRefreshToken(refreshToken);
-      setRole(role);
+      const { accessToken, refreshToken, user } = data;
+      // setToken(accessToken);
+      // setRefreshToken(refreshToken);
+      // setRole(role);
       useAuthStore.setState({
         id: user.id,
         email: user.email,
         phone: user.phone,
-        program: programa.programa
+        program: user.program,
+        role: user.role,
+        token: accessToken,
+        refreshToken: refreshToken,
+
        });
        console.log('Valores user Auth:', data);
 

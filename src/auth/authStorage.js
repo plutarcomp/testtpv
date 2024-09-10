@@ -7,7 +7,7 @@ export const useAuthStore = create((set) => ({
   id: null,
   email: null,
   phone: null,
-  programa: null,
+  program: null,
   setToken: (token) => set({ token }),
   setRefreshToken: (refreshToken) => set({ refreshToken }),
   setRole: (role) => set({ role }),

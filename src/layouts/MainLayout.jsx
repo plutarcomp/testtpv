@@ -1,8 +1,36 @@
 import PropTypes from 'prop-types';
 import './mainlayout.css';
+import { useAuthStore } from '../auth/authStorage';
+import { Link } from '@tanstack/react-router';
 
 const MainLayout = () => {
 
+  //get data from zustand auth store
+  const { user, token, role, id, program, email, logout, phone } = useAuthStore();
+  console.log('Valores de zustand user', user);
+  console.log('Valores de zustand token', token);
+  console.log('Valores de zustand role', role);
+  console.log('Valores de zustand id', id);
+  console.log('Valores de zustand programa', program);
+  console.log('Valores de zustand email', email);
+  console.log('Valores de zustand phone', phone);
+
+  console.log(program);
+
+// change role value to a different string
+  let roleValue = '';
+  if (role === 'admin') {
+    roleValue = 'Administrador';
+  } else if (role === 'coach') {
+    roleValue = 'Entrenador';
+  } else if (role === 'user') {
+    roleValue = 'Usuario';
+  } else {
+    roleValue = 'Usuario';
+  }
+
+  let urlLogin = '/zapopan-al-cubo/login';
+  console.log('Valores de urlLogin:', urlLogin);
   return (
     <div className={`app-container`}>
       {/* Sidebar Toggle Button */}
@@ -11,14 +39,17 @@ const MainLayout = () => {
       <div className={`sidebar bg-dark text-light`}>
         <div className='sidebar-content'>
         <div className="sidebar-header text-center p-2">
-          <img src="/images/qbos/logo1.png" alt="Logo" className="img-fluid" />
+          <img src="/images/logo.png" alt="Logo" className="img-fluid" />
           <div className="user-info mt-3">
-            <img src="user-avatar.jpg" alt="User" className="rounded-circle" width="60" />
-            <h5 className="mt-2">Manuel Salas</h5>
-            <p className="badge bg-success">Usuario</p>
+            <div className='avatar'>
+            <img src="https://i.pravatar.cc/300" alt="Logo" className="img-fluid" />
+            </div>
+            <h5 className="mt-2">{email}</h5>
+            <p className="badge bg-success">{roleValue}</p>
           </div>
+          <Link to={urlLogin} onClick={logout} className="btn btn-danger mt-3">Cerrar sesión</Link>
         </div>
-        <ul className="nav flex-column p-3">
+        {/* <ul className="nav flex-column p-3">
           <li className="nav-item">
             <a className="nav-link active" href="#">Inicio</a>
           </li>
@@ -46,14 +77,14 @@ const MainLayout = () => {
           <li className="nav-item">
             <a className="nav-link" href="#">Quejas al buzón</a>
           </li>
-        </ul>
+        </ul> */}
       </div>
 
       {/* Main content */}
       <div className="content flex-grow-1">
         {/* Top Navbar */}
         <div className="topbar d-flex justify-content-between align-items-center p-3 bg-white fixed-top">
-          <div className="breadcrumb">
+          {/* <div className="breadcrumb">
             <p className="mb-0">Inicio <span className="text-muted">/ Buenos días 🔥</span></p>
           </div>
           <div className="search-box d-flex align-items-center">
@@ -63,7 +94,7 @@ const MainLayout = () => {
               <i className="fa fa-cog ml-3"></i>
               <i className="fa fa-user ml-3"></i>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Main Content Area */}

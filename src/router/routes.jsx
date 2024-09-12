@@ -6,6 +6,7 @@ import DashboardPage from "../pages/dashboard/DashboardPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import RegisterStep1Page from "../pages/auth/RegisterStep1Page";
 import RegisterStep2Page from "../pages/auth/RegisterStep2Page";
+import InitialPage from "../pages/InitialPage";
 
 const rootRoute = createRootRoute({
   component: Root,
@@ -15,7 +16,7 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: LoginPage,
+  component: InitialPage,
 });
 
 const loginRoute = createRoute({
